@@ -22,7 +22,7 @@ require_once("../includes/navbar.php");
 
             <div class="card">
                 <h2>📃 Playlists</h2>
-                <p>0</p>
+                <p id="playlistsCount">0</p>
             </div>
 
             <div class="card">
@@ -58,4 +58,4 @@ require_once("../includes/navbar.php");
 </div>
 
 <?php require_once("../includes/footer.php"); ?>
-<script src="../assets/js/dashboard.js"></script>
+<script src="../assets/dashboard.js"></script>

@@ -1,101 +1,413 @@
 /* ===========================
-   MixMaster AI DJ Console ONLY
+   MixMaster AI DJ Console - REALISTIC STYLING
 =========================== */
 
-.dj-console-page{
-    background:#111827;
-    color:#fff;
-    font-family:Poppins,sans-serif;
+.content.dj-console-page,
+.dj-console-page {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+    padding: 20px !important;
 }
 
-/* DO NOT touch global body anymore */
-
-/* Layout */
-.dj-console-page .dj-console{
-    display:flex;
-    gap:20px;
-    justify-content:space-between;
-    align-items:flex-start;
-    margin-top:20px;
+/* Main Console Layout */
+.dj-console-page .dj-console {
+    display: grid;
+    grid-template-columns: 1fr 200px 1fr;
+    gap: 25px;
+    margin-top: 30px;
+    padding: 20px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* Decks */
-.dj-console-page .deck{
-    flex:1;
-    background:#1f2937;
-    border-radius:15px;
-    padding:20px;
-    box-shadow:0 0 20px rgba(0,255,136,.15);
+/* ===== DECK STYLING ===== */
+.dj-console-page .deck {
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
+    border: 3px solid #00d4ff;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 
+        0 0 30px rgba(0, 212, 255, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.6);
+    position: relative;
+    overflow: hidden;
 }
 
-.dj-console-page .deck h2{
-    text-align:center;
-    margin-bottom:15px;
+.dj-console-page .deck::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
 }
 
-/* Waveform */
-.dj-console-page .waveform{
-    background:#000;
-    border-radius:10px;
-    padding:10px;
-    margin-bottom:15px;
+.dj-console-page .deck h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #00d4ff;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
 }
 
-/* Canvas */
-.dj-console-page canvas{
-    width:100%;
-    height:120px;
-    display:block;
+/* Track Display */
+.dj-console-page .deck h3 {
+    background: #0a0a0f;
+    color: #00ff88;
+    padding: 12px 15px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 15px 0;
+    border: 1px solid #00ff88;
+    font-size: 16px;
+    text-shadow: 0 0 5px rgba(0, 255, 136, 0.8);
+    position: relative;
+    z-index: 1;
 }
 
-/* Controls */
-.dj-console-page .controls{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin:15px 0;
-    flex-wrap:wrap;
+/* ===== WAVEFORM DISPLAY ===== */
+.dj-console-page .waveform {
+    background: #000000;
+    border: 2px solid #00ff88;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 20px;
+    box-shadow: 
+        inset 0 0 15px rgba(0, 0, 0, 0.9),
+        0 0 15px rgba(0, 255, 136, 0.2);
+    position: relative;
+    z-index: 1;
 }
 
-.dj-console-page .controls button{
-    padding:10px 18px;
-    border:none;
-    border-radius:8px;
-    background:#00c853;
-    color:white;
-    cursor:pointer;
-    font-weight:bold;
-    transition:.2s;
+.dj-console-page .waveform canvas {
+    width: 100%;
+    height: 120px;
+    display: block;
+    background: linear-gradient(to bottom, #001a00, #000000);
+    border-radius: 8px;
 }
 
-.dj-console-page .controls button:hover{
-    background:#00e676;
-    transform:scale(1.05);
+/* ===== VU METER ===== */
+.dj-console-page .vu-meter {
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 8px;
+    height: 20px;
+    margin: 12px 0 20px 0;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+    position: relative;
+    z-index: 1;
 }
 
-/* Mixer */
-.dj-console-page .mixer{
-    width:220px;
-    background:#1f2937;
-    border-radius:15px;
-    padding:20px;
-    text-align:center;
-    box-shadow:0 0 20px rgba(0,255,136,.15);
+.dj-console-page .vu-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff88 0%, #ffff00 50%, #ff4444 100%);
+    width: 0%;
+    transition: width 0.1s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
 }
 
-/* Playlist */
-.dj-console-page .playlist-panel{
-    margin-top:25px;
-    background:#1f2937;
-    border-radius:15px;
-    padding:20px;
+/* ===== TIME DISPLAY ===== */
+.dj-console-page .time {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    position: relative;
+    z-index: 1;
 }
 
-.dj-console-page .song-item{
-    background:#2d3748;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:12px;
+.dj-console-page .time span {
+    background: #0a0a0f;
+    color: #00d4ff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #00d4ff;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    min-width: 60px;
+    text-align: center;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.8);
+}
+
+.dj-console-page .time input[type="range"] {
+    flex: 1;
+    height: 6px;
+    background: #1a1a2e;
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    border: 1px solid #00ff88;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+}
+
+.dj-console-page .time input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #00d4ff, #00ff88);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+    border: 2px solid #fff;
+}
+
+.dj-console-page .time input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #00d4ff, #00ff88);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+    border: 2px solid #fff;
+}
+
+/* ===== CONTROL BUTTONS ===== */
+.dj-console-page .controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 20px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.dj-console-page .controls button {
+    padding: 14px 12px;
+    border: 2px solid #00d4ff;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #00d4ff, #0099cc);
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 
+        0 0 15px rgba(0, 212, 255, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.dj-console-page .controls button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.3s ease;
+}
+
+.dj-console-page .controls button:hover {
+    background: linear-gradient(135deg, #00ff88, #00dd66);
+    box-shadow: 
+        0 0 25px rgba(0, 255, 136, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    border-color: #00ff88;
+}
+
+.dj-console-page .controls button:active {
+    transform: translateY(1px);
+    box-shadow: 
+        0 0 10px rgba(0, 255, 136, 0.6),
+        inset 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* ===== VOLUME FADER ===== */
+.dj-console-page .controls label {
+    grid-column: 1 / -1;
+    font-size: 13px;
+    font-weight: bold;
+    color: #00d4ff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 15px;
+}
+
+.dj-console-page input[type="range"] {
+    position: relative;
+    z-index: 1;
+}
+
+.dj-console-page input[type="range"]:not(.time input[type="range"]) {
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(to right, #001a00, #00ff88);
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    border: 1px solid #00ff88;
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
+    margin-top: 10px;
+}
+
+.dj-console-page input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #ffff00, #ff8800);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.8);
+    border: 2px solid #fff;
+}
+
+.dj-console-page input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #ffff00, #ff8800);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.8);
+    border: 2px solid #fff;
+}
+
+/* ===== MIXER SECTION ===== */
+.dj-console-page .mixer {
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
+    border: 3px solid #00d4ff;
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 
+        0 0 30px rgba(0, 212, 255, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.6);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dj-console-page .mixer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
+}
+
+.dj-console-page .mixer h2 {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #00d4ff;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+    font-size: 18px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.dj-console-page .mixer label {
+    font-size: 12px;
+    color: #00ff88;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.dj-console-page .mixer input[type="range"] {
+    width: 100%;
+    height: 12px;
+    writing-mode: bt-lr;
+    direction: rtl;
+    background: linear-gradient(to bottom, #00ff88, #00aa44);
+    border-radius: 8px;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    border: 2px solid #00ff88;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+    position: relative;
+    z-index: 1;
+}
+
+.dj-console-page .mixer input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #ffff00, #ff8800);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.9);
+    border: 2px solid #fff;
+}
+
+.dj-console-page .mixer input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #ffff00, #ff8800);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.9);
+    border: 2px solid #fff;
+}
+
+/* ===== PLAYLIST PANEL ===== */
+.dj-console-page .playlist-panel {
+    grid-column: 1 / -1;
+    margin-top: 20px;
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
+    border: 2px solid #00d4ff;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 
+        0 0 25px rgba(0, 212, 255, 0.2),
+        inset 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+.dj-console-page .playlist-panel h2 {
+    color: #00d4ff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+}
+
+.dj-console-page .song-item {
+    background: linear-gradient(135deg, #1a1a2e, #0f0f1e);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    border-left: 4px solid #00ff88;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.dj-console-page .song-item:hover {
+    background: linear-gradient(135deg, #2a2a3e, #1f1f2e);
+    border-left-color: #00d4ff;
+    box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
+    transform: translateX(5px);
 }
 
 .dj-console-page .song-item button{
@@ -145,10 +457,211 @@
 /* Responsive */
 @media(max-width:1000px){
     .dj-console-page .dj-console{
+        grid-template-columns:1fr;
         flex-direction:column;
     }
 
     .dj-console-page .mixer{
         width:100%;
+        grid-column:auto;
+    }
+}
+
+/* ===== ANIMATIONS & EFFECTS ===== */
+
+/* Pulse animation for active decks */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 
+            0 0 30px rgba(0, 212, 255, 0.3),
+            inset 0 0 20px rgba(0, 0, 0, 0.8),
+            0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+    50% {
+        box-shadow: 
+            0 0 50px rgba(0, 212, 255, 0.6),
+            inset 0 0 20px rgba(0, 0, 0, 0.8),
+            0 8px 32px rgba(0, 0, 0, 0.8);
+    }
+}
+
+.dj-console-page .deck.active {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* VU meter animation */
+@keyframes vu-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.dj-console-page .vu-bar {
+    animation: vu-flicker 0.3s ease-in-out;
+}
+
+/* Button press effect */
+@keyframes button-press {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(2px); }
+    100% { transform: translateY(0); }
+}
+
+.dj-console-page .controls button:active {
+    animation: button-press 0.2s ease-out;
+}
+
+/* Slider track shine effect */
+@keyframes slider-shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.dj-console-page input[type="range"]::before {
+    animation: slider-shine 2s infinite;
+}
+
+/* LED Indicator blink */
+@keyframes led-blink {
+    0%, 49%, 100% { opacity: 1; }
+    50%, 99% { opacity: 0.3; }
+}
+
+.dj-console-page .deck h3::before {
+    content: '● ';
+    color: #00ff88;
+    animation: led-blink 1s infinite;
+}
+
+/* Glow effect on hover */
+@keyframes glow-pulse {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.4)); }
+    50% { filter: drop-shadow(0 0 15px rgba(0, 255, 136, 0.8)); }
+}
+
+.dj-console-page .waveform:hover {
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dj-console-page .deck,
+.dj-console-page .mixer,
+.dj-console-page .playlist-panel {
+    animation: fade-in 0.6s ease-out;
+}
+
+/* Control button glow on focus */
+.dj-console-page .controls button:focus {
+    outline: none;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 136, 0.9),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Slider thumb glow */
+.dj-console-page input[type="range"]:hover::-webkit-slider-thumb {
+    box-shadow: 0 0 25px rgba(255, 255, 0, 1), 0 0 40px rgba(255, 255, 0, 0.5);
+}
+
+.dj-console-page input[type="range"]:hover::-moz-range-thumb {
+    box-shadow: 0 0 25px rgba(255, 255, 0, 1), 0 0 40px rgba(255, 255, 0, 0.5);
+}
+
+/* Track display text animation */
+.dj-console-page .deck h3 {
+    animation: fade-in 0.4s ease-out;
+}
+
+/* Song item hover lift effect */
+.dj-console-page .song-item {
+    position: relative;
+    z-index: 1;
+}
+
+.dj-console-page .song-item:active {
+    transform: translateY(2px) translateX(5px);
+}
+
+/* Volume indicator styling */
+.dj-console-page input[type="range"]::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, #001a00 0%, #00ff88 var(--value), #003300 100%);
+}
+
+.dj-console-page input[type="range"]::-moz-range-track {
+    background: linear-gradient(to right, #001a00 0%, #00ff88 50%, #003300 100%);
+}
+
+/* ===== ENHANCED RESPONSIVENESS ===== */
+
+@media(max-width:768px) {
+    .dj-console-page .dj-console {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .dj-console-page .deck,
+    .dj-console-page .mixer {
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .dj-console-page .deck h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .dj-console-page .controls {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .dj-console-page .controls button {
+        padding: 12px 10px;
+        font-size: 12px;
+    }
+
+    .dj-console-page .waveform canvas {
+        height: 80px;
+    }
+}
+
+@media(max-width:480px) {
+    .dj-console-page .deck h2 {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+
+    .dj-console-page .controls button {
+        padding: 10px;
+        font-size: 11px;
+    }
+
+    .dj-console-page .time {
+        gap: 5px;
+    }
+
+    .dj-console-page .time span {
+        font-size: 12px;
+        padding: 4px 8px;
+        min-width: 50px;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .dj-console-page .controls button,
+    .dj-console-page input[type="range"] {
+        display: none;
     }
 }

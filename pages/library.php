@@ -26,6 +26,6 @@ class="search-box">
 
 </div>
 
-<script src="../assets/js/library.js"></script>
+<script src="../assets/library.js"></script>
 
 <?php require_once("../includes/footer.php"); ?>

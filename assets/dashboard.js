@@ -6,9 +6,9 @@ fetch("../api/dashboardStats.php")
 
     document.getElementById("songsCount").innerText = data.songs;
 
-    document.getElementById("playlistCount").innerText = data.playlists;
+    document.getElementById("playlistsCount").innerText = data.playlists;
 
-    document.getElementById("mixCount").innerText = data.mixes;
+    document.getElementById("mixCount").innerText = data.plays;
 
     document.getElementById("storageCount").innerText =
         data.storage + " MB";

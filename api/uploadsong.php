@@ -5,6 +5,7 @@ session_start();
 header('Content-Type: application/json');
 
 require_once("../includes/db.php");
+require_once("../includes/functions.php");
 
 if (!isset($_SESSION['user_id'])) {
     echo json_encode([
@@ -44,20 +45,30 @@ if ($file['error'] !== UPLOAD_ERR_OK) {
     exit();
 }
 
-$title = trim($_POST['title']);
-$artist = trim($_POST['artist']);
-$genre = trim($_POST['genre']);
+$title = trim($_POST['title'] ?? '');
+$artist = trim($_POST['artist'] ?? '');
+$genre = trim($_POST['genre'] ?? '');
+
+if (empty($title)) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Title is required."
+    ]);
+    exit();
+}
+
+// Ensure uploads directory exists
+$uploadDir = ensureUploadsDirectory();
 
 $newName = bin2hex(random_bytes(16)) . "." . $extension;
 
-$destination = "../uploads/songs/" . $newName;
+$destination = $uploadDir . $newName;
 
 if (!move_uploaded_file($file['tmp_name'], $destination)) {
 
     echo json_encode([
         "success" => false,
         "message" => "Upload failed.",
-        "tmp_name" => $file['tmp_name'],
         "destination" => $destination,
         "error" => error_get_last()
     ]);
@@ -65,6 +76,7 @@ if (!move_uploaded_file($file['tmp_name'], $destination)) {
     exit();
 }
 
+// Insert song into database
 $stmt = $pdo->prepare("
 INSERT INTO songs
 (title, artist, genre, filename, file_size, uploaded_by)
@@ -80,7 +92,20 @@ $stmt->execute([
     $_SESSION['user_id']
 ]);
 
+$songId = $pdo->lastInsertId();
+
+// Run AI detection asynchronously (optional)
+// You could trigger these via separate API calls or a queue system
+$detectionData = [
+    'song_id' => $songId,
+    'title' => $title,
+    'artist' => $artist,
+    'genre_initial' => $genre
+];
+
 echo json_encode([
     "success" => true,
-    "message" => "Song uploaded successfully!"
+    "message" => "Song uploaded successfully!",
+    "song_id" => $songId,
+    "filename" => $newName
 ]);

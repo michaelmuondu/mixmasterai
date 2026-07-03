@@ -3,11 +3,14 @@ require_once("../includes/auth.php");
 require_once("../includes/header.php");
 require_once("../includes/navbar.php");
 ?>
+
+<link rel="stylesheet" href="../assets/player.css">
+
 <div class="container">
 
 <?php require_once("../includes/sidebar.php"); ?>
 
-<div class="content">
+<div class="content dj-console-page">
 
 <h1>🎧 MixMaster AI DJ Console</h1>
 

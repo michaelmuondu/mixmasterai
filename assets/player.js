@@ -211,3 +211,100 @@ function drawWaveform(canvas, ctx, analyser) {
 }
 drawWaveform(canvasA, ctxA, analyserA);
 drawWaveform(canvasB, ctxB, analyserB);
+
+// ===== LOAD FUNCTIONS =====
+function loadDeckA(filename, title) {
+    audioA.src = `../uploads/songs/${filename}`;
+    trackA.textContent = title;
+    trackA.style.color = '#00ff88';
+    
+    // Add active deck effect
+    document.querySelector('.deck:nth-child(1)').classList.add('active');
+    setTimeout(() => {
+        document.querySelector('.deck:nth-child(1)').classList.remove('active');
+    }, 2000);
+}
+
+function loadDeckB(filename, title) {
+    audioB.src = `../uploads/songs/${filename}`;
+    trackB.textContent = title;
+    trackB.style.color = '#00ff88';
+    
+    // Add active deck effect
+    document.querySelector('.deck:nth-child(3)').classList.add('active');
+    setTimeout(() => {
+        document.querySelector('.deck:nth-child(3)').classList.remove('active');
+    }, 2000);
+}
+
+// ===== TIME UPDATE HANDLERS =====
+audioA.addEventListener('timeupdate', () => {
+    document.getElementById('currentA').textContent = formatTime(audioA.currentTime);
+    seekA.value = (audioA.currentTime / audioA.duration) * 100 || 0;
+});
+
+audioB.addEventListener('timeupdate', () => {
+    document.getElementById('currentB').textContent = formatTime(audioB.currentTime);
+    seekB.value = (audioB.currentTime / audioB.duration) * 100 || 0;
+});
+
+audioA.addEventListener('loadedmetadata', () => {
+    document.getElementById('durationA').textContent = formatTime(audioA.duration);
+});
+
+audioB.addEventListener('loadedmetadata', () => {
+    document.getElementById('durationB').textContent = formatTime(audioB.duration);
+});
+
+// ===== SEEK BAR HANDLERS =====
+seekA.addEventListener('change', () => {
+    audioA.currentTime = (seekA.value / 100) * audioA.duration;
+});
+
+seekB.addEventListener('change', () => {
+    audioB.currentTime = (seekB.value / 100) * audioB.duration;
+});
+
+// ===== VOLUME HANDLERS =====
+volumeA.addEventListener('input', () => {
+    audioA.volume = volumeA.value;
+});
+
+volumeB.addEventListener('input', () => {
+    audioB.volume = volumeB.value;
+});
+
+// ===== CROSSFADER =====
+crossfader.addEventListener('input', () => {
+    const value = crossfader.value / 100;
+    audioA.volume = 1 - value;
+    audioB.volume = value;
+});
+
+// ===== UTILITY FUNCTION =====
+function formatTime(seconds) {
+    if (!seconds || isNaN(seconds)) return '00:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+// ===== BUTTON ANIMATIONS =====
+document.querySelectorAll('.controls button').forEach(button => {
+    button.addEventListener('click', function() {
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            this.style.transform = 'scale(1)';
+        }, 150);
+    });
+});
+
+// ===== RESPONSIVE DECK STYLING =====
+window.addEventListener('resize', () => {
+    const width = window.innerWidth;
+    if (width < 1000) {
+        document.querySelector('.dj-console').style.gridTemplateColumns = '1fr';
+    } else {
+        document.querySelector('.dj-console').style.gridTemplateColumns = '1fr 200px 1fr';
+    }
+});
