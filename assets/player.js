@@ -1,310 +1,354 @@
-// ===============================
-// MixMaster AI Player
-// ===============================
+// ================================
+// MixMaster AI Player Controller
+// ================================
 
-// Audio Elements
-const audioA = document.getElementById("audioA");
-const audioB = document.getElementById("audioB");
+const deckA = window.djMixer.deckA;
+const deckB = window.djMixer.deckB;
 
-// Track Labels
-const trackA = document.getElementById("trackA");
-const trackB = document.getElementById("trackB");
+let playlist = [];
+let selectedTrack = null;
 
-// Buttons
-const playA = document.getElementById("playA");
-const pauseA = document.getElementById("pauseA");
-const stopA = document.getElementById("stopA");
+// ----------------------
+// Load Playlist
+// ----------------------
 
-const playB = document.getElementById("playB");
-const pauseB = document.getElementById("pauseB");
-const stopB = document.getElementById("stopB");
-playA.onclick = async function () {
+async function loadPlaylist() {
 
-    await audioContext.resume();
+    try {
 
-    audioA.play();
+        const response = await fetch("../api/getPlaylist.php");
+        const data = await response.json();
 
-};
-
-pauseA.onclick = function () {
-
-    audioA.pause();
-
-};
-
-stopA.onclick = function () {
-
-    audioA.pause();
-    audioA.currentTime = 0;
-
-};
-
-playB.onclick = async function () {
-
-    await audioContext.resume();
-
-    audioB.play();
-
-};
-
-pauseB.onclick = function () {
-
-    audioB.pause();
-
-};
-
-stopB.onclick = function () {
-
-    audioB.pause();
-    audioB.currentTime = 0;
-
-};
-// Volume
-const volumeA = document.getElementById("volumeA");
-const volumeB = document.getElementById("volumeB");
-
-// Crossfader
-const crossfader = document.getElementById("crossfader");
-
-// Seek Bars
-const seekA = document.getElementById("seekA");
-const seekB = document.getElementById("seekB");
-
-// Playlist
-const playlist = document.getElementById("playlist");
-
-// Waveforms
-const canvasA = document.getElementById("waveformA");
-const canvasB = document.getElementById("waveformB");
-const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-const audioContext = new AudioContextClass();
-
-const analyserA = audioContext.createAnalyser();
-const analyserB = audioContext.createAnalyser();
-
-const sourceA = audioContext.createMediaElementSource(audioA);
-const sourceB = audioContext.createMediaElementSource(audioB);
-
-sourceA.connect(analyserA);
-sourceB.connect(analyserB);
-
-analyserA.connect(audioContext.destination);
-analyserB.connect(audioContext.destination);
-
-analyserA.fftSize = 256;
-analyserB.fftSize = 256;
-fetch("../api/getPlaylist.php")
-    .then(res => res.json())
-    .then(songs => {
-
-        if (songs.length === 0) {
-            playlist.innerHTML = "<p>No songs uploaded.</p>";
+        if (!data.success) {
+            document.getElementById("playlist").innerHTML =
+                "<p>Unable to load playlist.</p>";
             return;
         }
 
-        playlist.innerHTML = "";
+        playlist = data.songs;
 
-        songs.forEach(song => {
+        renderPlaylist();
 
-            playlist.innerHTML += `
-                <div class="song-item">
+    } catch (err) {
 
-                    <strong>${song.title}</strong><br>
+        console.error(err);
 
-                    <small>${song.artist}</small><br><br>
+        document.getElementById("playlist").innerHTML =
+            "<p>Error loading playlist.</p>";
 
-                    <button onclick="loadDeckA('${song.filename}','${song.title}')">
-                        Load A
-                    </button>
-
-                    <button onclick="loadDeckB('${song.filename}','${song.title}')">
-                        Load B
-                    </button>
-
-                    <hr>
-
-                </div>
-            `;
-
-        });
-
-    });
-    const vuA = document.getElementById("vuA");
-const vuB = document.getElementById("vuB");
-
-function updateVUMeter(analyser, meter){
-
-    const bufferLength = analyser.frequencyBinCount;
-    const data = new Uint8Array(bufferLength);
-
-    analyser.getByteFrequencyData(data);
-
-    let sum = 0;
-
-    for(let i = 0; i < bufferLength; i++){
-        sum += data[i];
     }
 
-    const average = sum / bufferLength;
-
-    meter.style.width = (average / 255) * 100 + "%";
-
-    requestAnimationFrame(() => updateVUMeter(analyser, meter));
 }
 
-updateVUMeter(analyserA, vuA);
-updateVUMeter(analyserB, vuB);
-const canvasA = document.getElementById("waveformA");
-const canvasB = document.getElementById("waveformB");
+// ----------------------
+// Render Playlist
+// ----------------------
 
-const ctxA = canvasA.getContext("2d");
-const ctxB = canvasB.getContext("2d");
-function drawWaveform(canvas, ctx, analyser) {
+function renderPlaylist() {
 
-    const bufferLength = analyser.fftSize;
-    const dataArray = new Uint8Array(bufferLength);
+    const container = document.getElementById("playlist");
 
-    function draw() {
+    container.innerHTML = "";
 
-        requestAnimationFrame(draw);
+    playlist.forEach(song => {
 
-        analyser.getByteTimeDomainData(dataArray);
+        const item = document.createElement("div");
 
-        ctx.fillStyle = "#000";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        item.className = "playlist-item";
 
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "#00ff88";
+        item.innerHTML = `
+            <strong>${song.title}</strong><br>
+            <small>${song.artist ?? "Unknown Artist"}</small>
 
-        ctx.beginPath();
+            <div class="playlist-buttons">
 
-        const sliceWidth = canvas.width / bufferLength;
-        let x = 0;
+                <button class="loadA">Deck A</button>
 
-        for (let i = 0; i < bufferLength; i++) {
+                <button class="loadB">Deck B</button>
 
-            const v = dataArray[i] / 128.0;
-            const y = (v * canvas.height) / 2;
+            </div>
+        `;
 
-            if (i === 0) {
+        item.querySelector(".loadA").onclick = () => {
 
-                ctx.moveTo(x, y);
+            loadDeck(deckA, song, "A");
 
-            } else {
+        };
 
-                ctx.lineTo(x, y);
+        item.querySelector(".loadB").onclick = () => {
 
-            }
+            loadDeck(deckB, song, "B");
 
-            x += sliceWidth;
+        };
+
+        container.appendChild(item);
+
+    });
+
+}
+
+// ----------------------
+// Load Track
+// ----------------------
+
+function loadDeck(deck, song, side) {
+
+    deck.load(song.file_path);
+
+    document.getElementById("track" + side).innerText =
+        song.title;
+
+}
+
+// ----------------------
+// Controls
+// ----------------------
+
+document.getElementById("playA").onclick = () => deckA.play();
+
+document.getElementById("pauseA").onclick = () => deckA.pause();
+
+document.getElementById("stopA").onclick = () => deckA.stop();
+
+document.getElementById("playB").onclick = () => deckB.play();
+
+document.getElementById("pauseB").onclick = () => deckB.pause();
+
+document.getElementById("stopB").onclick = () => deckB.stop();
+
+// ----------------------
+// Volume
+// ----------------------
+
+document.getElementById("volumeA").oninput = e => {
+
+    deckA.setVolume(e.target.value);
+
+};
+
+document.getElementById("volumeB").oninput = e => {
+
+    deckB.setVolume(e.target.value);
+
+};
+
+// ----------------------
+// Crossfader
+// ----------------------
+
+document.getElementById("crossfader").oninput = e => {
+
+    window.djMixer.setCrossfader(
+
+        e.target.value / 100
+
+    );
+
+};
+
+// ----------------------
+// Seek
+// ----------------------
+
+document.getElementById("seekA").oninput = e => {
+
+    deckA.seek(e.target.value);
+
+};
+
+document.getElementById("seekB").oninput = e => {
+
+    deckB.seek(e.target.value);
+
+};
+
+// ----------------------
+// Time Display
+// ----------------------
+
+function formatTime(seconds) {
+
+    if (isNaN(seconds)) return "00:00";
+
+    const m = Math.floor(seconds / 60);
+
+    const s = Math.floor(seconds % 60);
+
+    return `${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+
+}
+
+function updateDeck(deck, side) {
+
+    const current = deck.getCurrentTime();
+
+    const duration = deck.getDuration();
+
+    document.getElementById("current"+side).innerText =
+        formatTime(current);
+
+    document.getElementById("duration"+side).innerText =
+        formatTime(duration);
+
+    if(duration){
+
+        document.getElementById("seek"+side).value =
+            (current/duration)*100;
+
+    }
+
+}
+
+function animate(){
+
+    updateDeck(deckA,"A");
+
+    updateDeck(deckB,"B");
+
+    requestAnimationFrame(animate);
+
+}
+
+animate();
+const waveformA = new WaveformRenderer(
+    "waveformA",
+    deckA.getAnalyser(),
+    "vuA"
+);
+
+const waveformB = new WaveformRenderer(
+    "waveformB",
+    deckB.getAnalyser(),
+    "vuB"
+);
+
+waveformA.draw();
+waveformB.draw();
+
+loadPlaylist();
+document.getElementById("bass").oninput = e => {
+
+    deckA.setBass(Number(e.target.value));
+    deckB.setBass(Number(e.target.value));
+
+};
+
+document.getElementById("mid").oninput = e => {
+
+    deckA.setMid(Number(e.target.value));
+    deckB.setMid(Number(e.target.value));
+
+};
+
+document.getElementById("treble").oninput = e => {
+
+    deckA.setTreble(Number(e.target.value));
+    deckB.setTreble(Number(e.target.value));
+
+};
+document.querySelectorAll(".cue-btn").forEach(button=>{
+
+    button.onclick=()=>{
+
+        const deck=
+            button.dataset.deck==="A"
+            ? deckA
+            : deckB;
+
+        const index=
+            Number(button.dataset.cue);
+
+        const created=
+            deck.toggleCue(index);
+
+        if(created){
+
+            button.classList.add("active");
 
         }
 
-        ctx.lineTo(canvas.width, canvas.height / 2);
+    };
 
-        ctx.stroke();
-
-    }
-
-    draw();
-
-}
-drawWaveform(canvasA, ctxA, analyserA);
-drawWaveform(canvasB, ctxB, analyserB);
-
-// ===== LOAD FUNCTIONS =====
-function loadDeckA(filename, title) {
-    audioA.src = `../uploads/songs/${filename}`;
-    trackA.textContent = title;
-    trackA.style.color = '#00ff88';
-    
-    // Add active deck effect
-    document.querySelector('.deck:nth-child(1)').classList.add('active');
-    setTimeout(() => {
-        document.querySelector('.deck:nth-child(1)').classList.remove('active');
-    }, 2000);
-}
-
-function loadDeckB(filename, title) {
-    audioB.src = `../uploads/songs/${filename}`;
-    trackB.textContent = title;
-    trackB.style.color = '#00ff88';
-    
-    // Add active deck effect
-    document.querySelector('.deck:nth-child(3)').classList.add('active');
-    setTimeout(() => {
-        document.querySelector('.deck:nth-child(3)').classList.remove('active');
-    }, 2000);
-}
-
-// ===== TIME UPDATE HANDLERS =====
-audioA.addEventListener('timeupdate', () => {
-    document.getElementById('currentA').textContent = formatTime(audioA.currentTime);
-    seekA.value = (audioA.currentTime / audioA.duration) * 100 || 0;
 });
+// ===========================
+// Pitch Control
+// ===========================
 
-audioB.addEventListener('timeupdate', () => {
-    document.getElementById('currentB').textContent = formatTime(audioB.currentTime);
-    seekB.value = (audioB.currentTime / audioB.duration) * 100 || 0;
-});
+function updatePitch(deck, sliderId, labelId) {
 
-audioA.addEventListener('loadedmetadata', () => {
-    document.getElementById('durationA').textContent = formatTime(audioA.duration);
-});
+    const slider = document.getElementById(sliderId);
 
-audioB.addEventListener('loadedmetadata', () => {
-    document.getElementById('durationB').textContent = formatTime(audioB.duration);
-});
+    const label = document.getElementById(labelId);
 
-// ===== SEEK BAR HANDLERS =====
-seekA.addEventListener('change', () => {
-    audioA.currentTime = (seekA.value / 100) * audioA.duration;
-});
+    slider.addEventListener("input", () => {
 
-seekB.addEventListener('change', () => {
-    audioB.currentTime = (seekB.value / 100) * audioB.duration;
-});
+        const percent = Number(slider.value);
 
-// ===== VOLUME HANDLERS =====
-volumeA.addEventListener('input', () => {
-    audioA.volume = volumeA.value;
-});
+        label.textContent = percent + "%";
 
-volumeB.addEventListener('input', () => {
-    audioB.volume = volumeB.value;
-});
+        const rate = 1 + (percent / 100);
 
-// ===== CROSSFADER =====
-crossfader.addEventListener('input', () => {
-    const value = crossfader.value / 100;
-    audioA.volume = 1 - value;
-    audioB.volume = value;
-});
+        deck.setPlaybackRate(rate);
 
-// ===== UTILITY FUNCTION =====
-function formatTime(seconds) {
-    if (!seconds || isNaN(seconds)) return '00:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-}
-
-// ===== BUTTON ANIMATIONS =====
-document.querySelectorAll('.controls button').forEach(button => {
-    button.addEventListener('click', function() {
-        this.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            this.style.transform = 'scale(1)';
-        }, 150);
     });
+
+}
+
+updatePitch(deckA, "pitchA", "pitchValueA");
+updatePitch(deckB, "pitchB", "pitchValueB");
+// ==========================
+// SYNC BUTTON
+// ==========================
+
+document.getElementById("syncA").addEventListener("click", () => {
+    syncDeck(deckA, deckB);
 });
 
-// ===== RESPONSIVE DECK STYLING =====
-window.addEventListener('resize', () => {
-    const width = window.innerWidth;
-    if (width < 1000) {
-        document.querySelector('.dj-console').style.gridTemplateColumns = '1fr';
-    } else {
-        document.querySelector('.dj-console').style.gridTemplateColumns = '1fr 200px 1fr';
-    }
+document.getElementById("syncB").addEventListener("click", () => {
+    syncDeck(deckB, deckA);
 });
+
+function syncDeck(sourceDeck, targetDeck) {
+
+    if (!sourceDeck.getDuration() || !targetDeck.getDuration()) {
+        alert("Load tracks into both decks first.");
+        return;
+    }
+
+    sourceDeck.setPlaybackRate(targetDeck.getPlaybackRate());
+
+    if (targetDeck.isPlaying) {
+        sourceDeck.audio.currentTime = targetDeck.audio.currentTime;
+    }
+
+    console.log("Deck synchronized.");
+}
+const controllerA =
+    new DeckController(
+        window.djMixer.deckA,
+        "A"
+    );
+
+const controllerB =
+    new DeckController(
+        window.djMixer.deckB,
+        "B"
+    );
+
+const playlist =
+    new Playlist(
+        controllerA,
+        controllerB
+    );
+
+function animate(){
+
+    controllerA.update();
+
+    controllerB.update();
+
+    requestAnimationFrame(animate);
+
+}
+
+animate();

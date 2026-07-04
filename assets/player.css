@@ -1,667 +1,473 @@
-/* ===========================
-   MixMaster AI DJ Console - REALISTIC STYLING
-=========================== */
+/* ==========================================
+   MixMaster AI DJ Console
+   ========================================== */
 
-.content.dj-console-page,
-.dj-console-page {
-    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
-    color: #fff;
-    font-family: 'Courier New', monospace;
-    min-height: 100vh;
-    padding: 20px !important;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* Main Console Layout */
-.dj-console-page .dj-console {
-    display: grid;
-    grid-template-columns: 1fr 200px 1fr;
-    gap: 25px;
-    margin-top: 30px;
-    padding: 20px;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
+.dj-console-page{
+
+    padding:20px;
+
+    color:#fff;
+
+    background:#111;
+
+    min-height:100vh;
+
 }
 
-/* ===== DECK STYLING ===== */
-.dj-console-page .deck {
-    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
-    border: 3px solid #00d4ff;
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 
-        0 0 30px rgba(0, 212, 255, 0.3),
-        inset 0 0 20px rgba(0, 0, 0, 0.8),
-        0 8px 32px rgba(0, 0, 0, 0.6);
-    position: relative;
-    overflow: hidden;
+/* ==========================================
+   Header
+   ========================================== */
+
+.console-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
 }
 
-.dj-console-page .deck::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-    pointer-events: none;
+.console-header h1{
+
+    color:#00ff99;
+
+    font-size:30px;
+
 }
 
-.dj-console-page .deck h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: #00d4ff;
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
-    font-weight: bold;
-    position: relative;
-    z-index: 1;
+.master-controls{
+
+    display:flex;
+
+    gap:10px;
+
 }
 
-/* Track Display */
-.dj-console-page .deck h3 {
-    background: #0a0a0f;
-    color: #00ff88;
-    padding: 12px 15px;
-    border-radius: 8px;
-    text-align: center;
-    margin: 15px 0;
-    border: 1px solid #00ff88;
-    font-size: 16px;
-    text-shadow: 0 0 5px rgba(0, 255, 136, 0.8);
-    position: relative;
-    z-index: 1;
+/* ==========================================
+   Main Console
+   ========================================== */
+
+.dj-console{
+
+    display:grid;
+
+    grid-template-columns:1fr 320px 1fr;
+
+    gap:20px;
+
+    margin-bottom:30px;
+
 }
 
-/* ===== WAVEFORM DISPLAY ===== */
-.dj-console-page .waveform {
-    background: #000000;
-    border: 2px solid #00ff88;
-    border-radius: 12px;
-    padding: 12px;
-    margin-bottom: 20px;
-    box-shadow: 
-        inset 0 0 15px rgba(0, 0, 0, 0.9),
-        0 0 15px rgba(0, 255, 136, 0.2);
-    position: relative;
-    z-index: 1;
+/* ==========================================
+   Deck
+   ========================================== */
+
+.deck{
+
+    background:#1b1b1b;
+
+    border:1px solid #333;
+
+    border-radius:12px;
+
+    padding:20px;
+
 }
 
-.dj-console-page .waveform canvas {
-    width: 100%;
-    height: 120px;
-    display: block;
-    background: linear-gradient(to bottom, #001a00, #000000);
-    border-radius: 8px;
+.deck-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:15px;
+
 }
 
-/* ===== VU METER ===== */
-.dj-console-page .vu-meter {
-    background: #000;
-    border: 1px solid #333;
-    border-radius: 8px;
-    height: 20px;
-    margin: 12px 0 20px 0;
-    overflow: hidden;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
-    position: relative;
-    z-index: 1;
+.deck-title span{
+
+    color:#00ff99;
+
+    font-weight:bold;
+
 }
 
-.dj-console-page .vu-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #00ff88 0%, #ffff00 50%, #ff4444 100%);
-    width: 0%;
-    transition: width 0.1s ease;
-    box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
-}
+.cover-art{
 
-/* ===== TIME DISPLAY ===== */
-.dj-console-page .time {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 15px 0;
-    position: relative;
-    z-index: 1;
-}
-
-.dj-console-page .time span {
-    background: #0a0a0f;
-    color: #00d4ff;
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: 1px solid #00d4ff;
-    font-size: 14px;
-    font-family: 'Courier New', monospace;
-    min-width: 60px;
-    text-align: center;
-    text-shadow: 0 0 5px rgba(0, 212, 255, 0.8);
-}
-
-.dj-console-page .time input[type="range"] {
-    flex: 1;
-    height: 6px;
-    background: #1a1a2e;
-    border-radius: 5px;
-    outline: none;
-    -webkit-appearance: none;
-    cursor: pointer;
-    border: 1px solid #00ff88;
-    box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
-}
-
-.dj-console-page .time input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: linear-gradient(135deg, #00d4ff, #00ff88);
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
-    border: 2px solid #fff;
-}
-
-.dj-console-page .time input[type="range"]::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    background: linear-gradient(135deg, #00d4ff, #00ff88);
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
-    border: 2px solid #fff;
-}
-
-/* ===== CONTROL BUTTONS ===== */
-.dj-console-page .controls {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin: 20px 0;
-    position: relative;
-    z-index: 1;
-}
-
-.dj-console-page .controls button {
-    padding: 14px 12px;
-    border: 2px solid #00d4ff;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #00d4ff, #0099cc);
-    color: #000;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 
-        0 0 15px rgba(0, 212, 255, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.dj-console-page .controls button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    transition: left 0.3s ease;
-}
-
-.dj-console-page .controls button:hover {
-    background: linear-gradient(135deg, #00ff88, #00dd66);
-    box-shadow: 
-        0 0 25px rgba(0, 255, 136, 0.8),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    transform: translateY(-2px);
-    border-color: #00ff88;
-}
-
-.dj-console-page .controls button:active {
-    transform: translateY(1px);
-    box-shadow: 
-        0 0 10px rgba(0, 255, 136, 0.6),
-        inset 0 1px 0 rgba(0, 0, 0, 0.3);
-}
-
-/* ===== VOLUME FADER ===== */
-.dj-console-page .controls label {
-    grid-column: 1 / -1;
-    font-size: 13px;
-    font-weight: bold;
-    color: #00d4ff;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 15px;
-}
-
-.dj-console-page input[type="range"] {
-    position: relative;
-    z-index: 1;
-}
-
-.dj-console-page input[type="range"]:not(.time input[type="range"]) {
-    width: 100%;
-    height: 8px;
-    background: linear-gradient(to right, #001a00, #00ff88);
-    border-radius: 5px;
-    outline: none;
-    -webkit-appearance: none;
-    cursor: pointer;
-    border: 1px solid #00ff88;
-    box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
-    margin-top: 10px;
-}
-
-.dj-console-page input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    background: linear-gradient(135deg, #ffff00, #ff8800);
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 255, 0, 0.8);
-    border: 2px solid #fff;
-}
-
-.dj-console-page input[type="range"]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    background: linear-gradient(135deg, #ffff00, #ff8800);
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 255, 0, 0.8);
-    border: 2px solid #fff;
-}
-
-/* ===== MIXER SECTION ===== */
-.dj-console-page .mixer {
-    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
-    border: 3px solid #00d4ff;
-    border-radius: 20px;
-    padding: 25px;
-    text-align: center;
-    box-shadow: 
-        0 0 30px rgba(0, 212, 255, 0.3),
-        inset 0 0 20px rgba(0, 0, 0, 0.8),
-        0 8px 32px rgba(0, 0, 0, 0.6);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.dj-console-page .mixer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-    pointer-events: none;
-}
-
-.dj-console-page .mixer h2 {
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #00d4ff;
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
-    font-size: 18px;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 1;
-}
-
-.dj-console-page .mixer label {
-    font-size: 12px;
-    color: #00ff88;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
-    display: block;
-    position: relative;
-    z-index: 1;
-}
-
-.dj-console-page .mixer input[type="range"] {
-    width: 100%;
-    height: 12px;
-    writing-mode: bt-lr;
-    direction: rtl;
-    background: linear-gradient(to bottom, #00ff88, #00aa44);
-    border-radius: 8px;
-    outline: none;
-    -webkit-appearance: none;
-    cursor: pointer;
-    border: 2px solid #00ff88;
-    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
-    position: relative;
-    z-index: 1;
-}
-
-.dj-console-page .mixer input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 24px;
-    height: 24px;
-    background: linear-gradient(135deg, #ffff00, #ff8800);
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(255, 255, 0, 0.9);
-    border: 2px solid #fff;
-}
-
-.dj-console-page .mixer input[type="range"]::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
-    background: linear-gradient(135deg, #ffff00, #ff8800);
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(255, 255, 0, 0.9);
-    border: 2px solid #fff;
-}
-
-/* ===== PLAYLIST PANEL ===== */
-.dj-console-page .playlist-panel {
-    grid-column: 1 / -1;
-    margin-top: 20px;
-    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
-    border: 2px solid #00d4ff;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 
-        0 0 25px rgba(0, 212, 255, 0.2),
-        inset 0 0 15px rgba(0, 0, 0, 0.7);
-}
-
-.dj-console-page .playlist-panel h2 {
-    color: #00d4ff;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-    text-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
-}
-
-.dj-console-page .song-item {
-    background: linear-gradient(135deg, #1a1a2e, #0f0f1e);
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    border-left: 4px solid #00ff88;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-.dj-console-page .song-item:hover {
-    background: linear-gradient(135deg, #2a2a3e, #1f1f2e);
-    border-left-color: #00d4ff;
-    box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
-    transform: translateX(5px);
-}
-
-.dj-console-page .song-item button{
-    margin-right:8px;
-    margin-top:10px;
-    padding:8px 15px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    background:#2563eb;
-    color:white;
-}
-
-.dj-console-page .song-item button:hover{
-    background:#3b82f6;
-}
-
-/* Crossfader */
-.dj-console-page #crossfader{
-    width:100%;
-    margin-top:20px;
-}
-
-.dj-console-page #trackA,
-.dj-console-page #trackB{
     text-align:center;
-    color:#00e676;
+
+    margin-bottom:15px;
+
 }
 
-/* VU meter */
-.dj-console-page .vu-meter{
+.cover-art img{
+
+    width:220px;
+
+    height:220px;
+
+    object-fit:cover;
+
+    border-radius:10px;
+
+    background:#222;
+
+}
+
+.deck h3{
+
+    text-align:center;
+
+    margin-top:10px;
+
+}
+
+.artist{
+
+    text-align:center;
+
+    color:#aaa;
+
+    margin-top:5px;
+
+}
+
+.track-meta{
+
+    display:flex;
+
+    justify-content:space-around;
+
+    margin:15px 0;
+
+    color:#ccc;
+
+    font-size:14px;
+
+}
+
+/* ==========================================
+   Waveform
+   ========================================== */
+
+canvas{
+
     width:100%;
-    height:10px;
-    background:#333;
-    border-radius:5px;
+
+    height:120px;
+
+    background:#000;
+
+    border-radius:8px;
+
+    margin-top:10px;
+
+}
+
+.vu-meter{
+
+    width:100%;
+
+    height:8px;
+
+    background:#222;
+
+    border-radius:20px;
+
+    margin-top:10px;
+
     overflow:hidden;
-    margin:10px 0 15px;
+
 }
 
-.dj-console-page .vu-bar{
+.vu-bar{
+
     width:0%;
+
     height:100%;
-    background:linear-gradient(90deg,#00ff88,#ffff00,#ff0000);
-    transition:width 0.05s linear;
+
+    background:#00ff99;
+
 }
 
-/* Responsive */
-@media(max-width:1000px){
-    .dj-console-page .dj-console{
-        grid-template-columns:1fr;
-        flex-direction:column;
-    }
+/* ==========================================
+   Controls
+   ========================================== */
 
-    .dj-console-page .mixer{
-        width:100%;
-        grid-column:auto;
-    }
+.transport{
+
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:8px;
+
+    margin-top:15px;
+
 }
 
-/* ===== ANIMATIONS & EFFECTS ===== */
+button{
 
-/* Pulse animation for active decks */
-@keyframes pulse-glow {
-    0%, 100% {
-        box-shadow: 
-            0 0 30px rgba(0, 212, 255, 0.3),
-            inset 0 0 20px rgba(0, 0, 0, 0.8),
-            0 8px 32px rgba(0, 0, 0, 0.6);
-    }
-    50% {
-        box-shadow: 
-            0 0 50px rgba(0, 212, 255, 0.6),
-            inset 0 0 20px rgba(0, 0, 0, 0.8),
-            0 8px 32px rgba(0, 0, 0, 0.8);
-    }
+    padding:10px;
+
+    border:none;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    background:#00ff99;
+
+    color:#111;
+
+    font-weight:bold;
+
+    transition:.2s;
+
 }
 
-.dj-console-page .deck.active {
-    animation: pulse-glow 2s ease-in-out infinite;
+button:hover{
+
+    transform:translateY(-2px);
+
 }
 
-/* VU meter animation */
-@keyframes vu-flicker {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
+/* ==========================================
+   Sliders
+   ========================================== */
+
+.sliders{
+
+    margin-top:20px;
+
 }
 
-.dj-console-page .vu-bar {
-    animation: vu-flicker 0.3s ease-in-out;
+.sliders label{
+
+    display:block;
+
+    margin-top:12px;
+
 }
 
-/* Button press effect */
-@keyframes button-press {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(2px); }
-    100% { transform: translateY(0); }
+input[type=range]{
+
+    width:100%;
+
+    margin-top:5px;
+
 }
 
-.dj-console-page .controls button:active {
-    animation: button-press 0.2s ease-out;
+/* ==========================================
+   Mixer
+   ========================================== */
+
+.mixer{
+
+    background:#191919;
+
+    border:1px solid #333;
+
+    border-radius:12px;
+
+    padding:20px;
+
 }
 
-/* Slider track shine effect */
-@keyframes slider-shine {
-    0% { left: -100%; }
-    100% { left: 100%; }
+.mixer h2{
+
+    text-align:center;
+
+    margin-bottom:20px;
+
 }
 
-.dj-console-page input[type="range"]::before {
-    animation: slider-shine 2s infinite;
+.mixer label{
+
+    display:block;
+
+    margin-top:15px;
+
 }
 
-/* LED Indicator blink */
-@keyframes led-blink {
-    0%, 49%, 100% { opacity: 1; }
-    50%, 99% { opacity: 0.3; }
+/* ==========================================
+   Music Browser
+   ========================================== */
+
+.music-browser{
+
+    background:#1b1b1b;
+
+    border-radius:12px;
+
+    padding:20px;
+
 }
 
-.dj-console-page .deck h3::before {
-    content: '● ';
-    color: #00ff88;
-    animation: led-blink 1s infinite;
+.browser-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
 }
 
-/* Glow effect on hover */
-@keyframes glow-pulse {
-    0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.4)); }
-    50% { filter: drop-shadow(0 0 15px rgba(0, 255, 136, 0.8)); }
+.browser-header input{
+
+    width:300px;
+
+    padding:10px;
+
+    border-radius:6px;
+
+    border:none;
+
 }
 
-.dj-console-page .waveform:hover {
-    animation: glow-pulse 2s ease-in-out infinite;
+.browser-filters{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-bottom:20px;
+
 }
 
-/* Fade in animation */
-@keyframes fade-in {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.browser-filters select{
+
+    padding:10px;
+
 }
 
-.dj-console-page .deck,
-.dj-console-page .mixer,
-.dj-console-page .playlist-panel {
-    animation: fade-in 0.6s ease-out;
+/* ==========================================
+   Playlist Cards
+   ========================================== */
+
+.song-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:15px;
+
+    margin-bottom:12px;
+
+    border:1px solid #333;
+
+    border-radius:10px;
+
+    background:#202020;
+
+    transition:.2s;
+
 }
 
-/* Control button glow on focus */
-.dj-console-page .controls button:focus {
-    outline: none;
-    box-shadow: 
-        0 0 30px rgba(0, 255, 136, 0.9),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+.song-card:hover{
+
+    border-color:#00ff99;
+
 }
 
-/* Slider thumb glow */
-.dj-console-page input[type="range"]:hover::-webkit-slider-thumb {
-    box-shadow: 0 0 25px rgba(255, 255, 0, 1), 0 0 40px rgba(255, 255, 0, 0.5);
+.song-card img{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:8px;
+
+    object-fit:cover;
+
 }
 
-.dj-console-page input[type="range"]:hover::-moz-range-thumb {
-    box-shadow: 0 0 25px rgba(255, 255, 0, 1), 0 0 40px rgba(255, 255, 0, 0.5);
+.song-details{
+
+    flex:1;
+
 }
 
-/* Track display text animation */
-.dj-console-page .deck h3 {
-    animation: fade-in 0.4s ease-out;
+.song-details h3{
+
+    margin-bottom:5px;
+
 }
 
-/* Song item hover lift effect */
-.dj-console-page .song-item {
-    position: relative;
-    z-index: 1;
+.song-meta{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-top:8px;
+
+    color:#bbb;
+
+    flex-wrap:wrap;
+
 }
 
-.dj-console-page .song-item:active {
-    transform: translateY(2px) translateX(5px);
+.song-actions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
 }
 
-/* Volume indicator styling */
-.dj-console-page input[type="range"]::-webkit-slider-runnable-track {
-    background: linear-gradient(to right, #001a00 0%, #00ff88 var(--value), #003300 100%);
+/* ==========================================
+   Responsive
+   ========================================== */
+
+@media(max-width:1200px){
+
+.dj-console{
+
+grid-template-columns:1fr;
+
 }
 
-.dj-console-page input[type="range"]::-moz-range-track {
-    background: linear-gradient(to right, #001a00 0%, #00ff88 50%, #003300 100%);
+.cover-art img{
+
+width:180px;
+
+height:180px;
+
 }
 
-/* ===== ENHANCED RESPONSIVENESS ===== */
+.browser-header{
 
-@media(max-width:768px) {
-    .dj-console-page .dj-console {
-        grid-template-columns: 1fr;
-        gap: 15px;
-        padding: 10px;
-    }
+flex-direction:column;
 
-    .dj-console-page .deck,
-    .dj-console-page .mixer {
-        padding: 15px;
-        border-radius: 15px;
-    }
+align-items:flex-start;
 
-    .dj-console-page .deck h2 {
-        font-size: 18px;
-        margin-bottom: 15px;
-    }
+gap:10px;
 
-    .dj-console-page .controls {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-
-    .dj-console-page .controls button {
-        padding: 12px 10px;
-        font-size: 12px;
-    }
-
-    .dj-console-page .waveform canvas {
-        height: 80px;
-    }
 }
 
-@media(max-width:480px) {
-    .dj-console-page .deck h2 {
-        font-size: 16px;
-        letter-spacing: 2px;
-    }
+.browser-header input{
 
-    .dj-console-page .controls button {
-        padding: 10px;
-        font-size: 11px;
-    }
+width:100%;
 
-    .dj-console-page .time {
-        gap: 5px;
-    }
-
-    .dj-console-page .time span {
-        font-size: 12px;
-        padding: 4px 8px;
-        min-width: 50px;
-    }
 }
 
-/* ===== PRINT STYLES ===== */
-@media print {
-    .dj-console-page .controls button,
-    .dj-console-page input[type="range"] {
-        display: none;
-    }
 }
