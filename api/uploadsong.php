@@ -47,6 +47,7 @@ if ($file['error'] !== UPLOAD_ERR_OK) {
 
 $title = trim($_POST['title'] ?? '');
 $artist = trim($_POST['artist'] ?? '');
+$album = trim($_POST['album'] ?? '');
 $genre = trim($_POST['genre'] ?? '');
 
 if (empty($title)) {
@@ -76,19 +77,22 @@ if (!move_uploaded_file($file['tmp_name'], $destination)) {
     exit();
 }
 
+$filePath = "../uploads/songs/" . $newName;
+
 // Insert song into database
 $stmt = $pdo->prepare("
 INSERT INTO songs
-(title, artist, genre, filename, file_size, uploaded_by)
-VALUES (?, ?, ?, ?, ?, ?)
+(title, artist, album, genre, file_path, cover_image, uploaded_by)
+VALUES (?, ?, ?, ?, ?, ?, ?)
 ");
 
 $stmt->execute([
     $title,
     $artist,
+    $album,
     $genre,
-    $newName,
-    $file['size'],
+    $filePath,
+    null,
     $_SESSION['user_id']
 ]);
 

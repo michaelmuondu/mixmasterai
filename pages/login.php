@@ -19,7 +19,7 @@ if($user){
 if(password_verify($password,$user['password'])){
 
 $_SESSION['user_id']=$user['id'];
-$_SESSION['fullname']=$user['fullname'];
+$_SESSION['fullname']=$user['full_name'];
 
 header("Location: dashboard.php");
 exit();

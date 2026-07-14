@@ -11,12 +11,11 @@ try {
             id,
             title,
             artist,
+            album,
             genre,
-            filename,
             duration,
-            cover,
-            bpm,
-            song_key
+            file_path,
+            cover_image
         FROM songs
         ORDER BY id DESC
     ");
@@ -26,12 +25,7 @@ try {
     $songs = [];
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-        $row["file_path"] =
-            "../uploads/music/" . $row["filename"];
-
         $songs[] = $row;
-
     }
 
     echo json_encode([

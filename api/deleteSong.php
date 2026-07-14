@@ -24,7 +24,7 @@ if (!isset($_POST['id'])) {
 $id = (int)$_POST['id'];
 
 $stmt = $pdo->prepare("
-SELECT filename
+SELECT file_path
 FROM songs
 WHERE id = ?
 AND uploaded_by = ?
@@ -42,10 +42,15 @@ if (!$song) {
     exit();
 }
 
-$file = "../uploads/songs/" . $song['filename'];
+$filePath = $song['file_path'];
 
-if (file_exists($file)) {
-    unlink($file);
+if ($filePath && !preg_match('#^https?://#i', $filePath)) {
+    $localFile = realpath(dirname(__DIR__) . '/' . ltrim($filePath, './'));
+    $uploadsDir = realpath(__DIR__ . '/../uploads/songs/');
+
+    if ($localFile && strpos($localFile, $uploadsDir) === 0 && file_exists($localFile)) {
+        unlink($localFile);
+    }
 }
 
 $stmt = $pdo->prepare("

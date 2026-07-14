@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $hashed = password_hash($password, PASSWORD_DEFAULT);
 
-            $insert = $pdo->prepare("INSERT INTO users(fullname,email,password) VALUES(?,?,?)");
+            $insert = $pdo->prepare("INSERT INTO users(full_name,email,password) VALUES(?,?,?)");
             $insert->execute([$fullname,$email,$hashed]);
 
             header("Location: login.php?success=1");

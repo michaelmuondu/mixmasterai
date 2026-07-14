@@ -8,16 +8,17 @@
     box-sizing:border-box;
 }
 
+body,
 .dj-console-page{
-
-    padding:20px;
-
-    color:#fff;
-
-    background:#111;
-
     min-height:100vh;
+    color:#e2e8f0;
+    background: radial-gradient(circle at top, rgba(56,189,248,.15), transparent 35%),
+                linear-gradient(180deg, #020617 0%, #050b14 55%, #07111f 100%);
+    font-family: 'Inter', sans-serif;
+}
 
+.dj-console-page{
+    padding:28px;
 }
 
 /* ==========================================
@@ -25,31 +26,33 @@
    ========================================== */
 
 .console-header{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    margin-bottom:20px;
-
+    flex-wrap:wrap;
+    gap:16px;
+    margin-bottom:26px;
 }
 
 .console-header h1{
-
-    color:#00ff99;
-
-    font-size:30px;
-
+    color:#7dd3fc;
+    font-size:34px;
+    letter-spacing:.6px;
+    text-shadow:0 0 24px rgba(125,211,252,.3);
 }
 
 .master-controls{
-
     display:flex;
+    gap:14px;
+}
 
-    gap:10px;
-
+.master-controls button{
+    border-radius:999px;
+    padding:14px 22px;
+    background:linear-gradient(135deg, #38bdf8, #7dd3fc);
+    color:#020617;
+    font-weight:700;
+    box-shadow:0 18px 40px rgba(56,189,248,.22);
 }
 
 /* ==========================================
@@ -57,15 +60,10 @@
    ========================================== */
 
 .dj-console{
-
     display:grid;
-
-    grid-template-columns:1fr 320px 1fr;
-
-    gap:20px;
-
-    margin-bottom:30px;
-
+    grid-template-columns:1fr 360px 1fr;
+    gap:24px;
+    margin-bottom:32px;
 }
 
 /* ==========================================
@@ -73,87 +71,86 @@
    ========================================== */
 
 .deck{
+    position:relative;
+    background:rgba(15,23,42,.92);
+    border:1px solid rgba(56,189,248,.16);
+    border-radius:28px;
+    padding:28px;
+    box-shadow:0 30px 90px rgba(0,0,0,.4);
+    overflow:hidden;
+}
 
-    background:#1b1b1b;
-
-    border:1px solid #333;
-
-    border-radius:12px;
-
-    padding:20px;
-
+.deck::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at top left, rgba(56,189,248,.12), transparent 26%),
+               radial-gradient(circle at bottom right, rgba(59,130,246,.08), transparent 28%);
+    pointer-events:none;
 }
 
 .deck-title{
-
     display:flex;
-
     justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
 
-    margin-bottom:15px;
-
+.deck-title h2{
+    font-size:24px;
+    letter-spacing:.4px;
 }
 
 .deck-title span{
-
-    color:#00ff99;
-
-    font-weight:bold;
-
+    color:#7dd3fc;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.5px;
 }
 
 .cover-art{
-
     text-align:center;
-
-    margin-bottom:15px;
-
+    margin-bottom:18px;
 }
 
 .cover-art img{
-
     width:220px;
-
     height:220px;
-
     object-fit:cover;
-
-    border-radius:10px;
-
-    background:#222;
-
+    border-radius:26px;
+    background:#0f172a;
+    border:2px solid rgba(125,211,252,.18);
+    box-shadow:0 22px 55px rgba(56,189,248,.15);
 }
 
 .deck h3{
-
     text-align:center;
-
-    margin-top:10px;
-
+    margin-top:12px;
+    font-size:20px;
+    letter-spacing:.3px;
 }
 
 .artist{
-
     text-align:center;
-
-    color:#aaa;
-
-    margin-top:5px;
-
+    color:#94a3b8;
+    margin-top:6px;
 }
 
 .track-meta{
-
     display:flex;
-
+    flex-wrap:wrap;
     justify-content:space-around;
+    margin:18px 0;
+    color:#cbd5e1;
+    font-size:13px;
+}
 
-    margin:15px 0;
-
-    color:#ccc;
-
-    font-size:14px;
-
+.track-meta span{
+    background:rgba(15,23,42,.82);
+    padding:8px 14px;
+    border-radius:999px;
+    margin:4px;
+    box-shadow:inset 0 0 4px rgba(255,255,255,.05);
 }
 
 /* ==========================================
@@ -161,43 +158,30 @@
    ========================================== */
 
 canvas{
-
     width:100%;
-
-    height:120px;
-
-    background:#000;
-
-    border-radius:8px;
-
-    margin-top:10px;
-
+    height:130px;
+    background:#020617;
+    border-radius:18px;
+    margin-top:12px;
+    border:1px solid rgba(56,189,248,.14);
+    box-shadow: inset 0 0 20px rgba(56,189,248,.08);
 }
 
 .vu-meter{
-
     width:100%;
-
-    height:8px;
-
-    background:#222;
-
-    border-radius:20px;
-
-    margin-top:10px;
-
+    height:10px;
+    background:rgba(255,255,255,.05);
+    border-radius:999px;
+    margin-top:16px;
     overflow:hidden;
-
+    border:1px solid rgba(255,255,255,.08);
 }
 
 .vu-bar{
-
     width:0%;
-
     height:100%;
-
-    background:#00ff99;
-
+    background:linear-gradient(90deg, #38bdf8, #60a5fa);
+    transition:width .15s ease;
 }
 
 /* ==========================================
@@ -205,41 +189,27 @@ canvas{
    ========================================== */
 
 .transport{
-
     display:grid;
-
     grid-template-columns:repeat(5,1fr);
-
-    gap:8px;
-
-    margin-top:15px;
-
+    gap:12px;
+    margin-top:22px;
 }
 
 button{
-
-    padding:10px;
-
+    padding:14px 12px;
     border:none;
-
-    border-radius:6px;
-
+    border-radius:16px;
     cursor:pointer;
-
-    background:#00ff99;
-
-    color:#111;
-
-    font-weight:bold;
-
-    transition:.2s;
-
+    background:linear-gradient(135deg, #0ea5e9, #38bdf8);
+    color:#fff;
+    font-weight:700;
+    transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    box-shadow:0 18px 30px rgba(8,145,178,.18);
 }
 
 button:hover{
-
     transform:translateY(-2px);
-
+    filter:brightness(1.05);
 }
 
 /* ==========================================
@@ -247,25 +217,19 @@ button:hover{
    ========================================== */
 
 .sliders{
-
-    margin-top:20px;
-
+    margin-top:24px;
 }
 
 .sliders label{
-
     display:block;
-
-    margin-top:12px;
-
+    margin-top:14px;
+    color:#cbd5e1;
 }
 
 input[type=range]{
-
     width:100%;
-
-    margin-top:5px;
-
+    margin-top:10px;
+    accent-color:#38bdf8;
 }
 
 /* ==========================================
@@ -273,31 +237,30 @@ input[type=range]{
    ========================================== */
 
 .mixer{
-
-    background:#191919;
-
-    border:1px solid #333;
-
-    border-radius:12px;
-
-    padding:20px;
-
+    background:rgba(15,23,42,.96);
+    border:1px solid rgba(56,189,248,.16);
+    border-radius:26px;
+    padding:26px;
+    box-shadow:0 30px 80px rgba(0,0,0,.42);
 }
 
 .mixer h2{
-
     text-align:center;
-
-    margin-bottom:20px;
-
+    margin-bottom:24px;
+    color:#7dd3fc;
 }
 
 .mixer label{
-
     display:block;
+    margin-top:18px;
+    color:#cbd5e1;
+}
 
-    margin-top:15px;
-
+.mixer hr{
+    border:none;
+    height:1px;
+    background:rgba(56,189,248,.15);
+    margin:22px 0;
 }
 
 /* ==========================================
@@ -305,58 +268,65 @@ input[type=range]{
    ========================================== */
 
 .music-browser{
-
-    background:#1b1b1b;
-
-    border-radius:12px;
-
-    padding:20px;
-
+    background:rgba(15,23,42,.9);
+    border-radius:24px;
+    padding:24px;
+    border:1px solid rgba(56,189,248,.14);
+    box-shadow:0 30px 70px rgba(0,0,0,.35);
 }
 
 .browser-header{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    margin-bottom:20px;
-
+    flex-wrap:wrap;
+    gap:16px;
+    margin-bottom:22px;
 }
 
 .browser-header input{
-
-    width:300px;
-
-    padding:10px;
-
-    border-radius:6px;
-
-    border:none;
-
+    width:320px;
+    padding:14px 16px;
+    border-radius:16px;
+    border:1px solid rgba(148,163,184,.16);
+    background:rgba(15,23,42,.8);
+    color:#e2e8f0;
 }
 
 .browser-filters{
-
     display:flex;
-
-    gap:10px;
-
+    flex-wrap:wrap;
+    gap:12px;
     margin-bottom:20px;
-
 }
 
 .browser-filters select{
-
-    padding:10px;
-
+    padding:12px 14px;
+    border-radius:16px;
+    border:1px solid rgba(148,163,184,.16);
+    background:rgba(15,23,42,.85);
+    color:#e2e8f0;
 }
 
-/* ==========================================
-   Playlist Cards
-   ========================================== */
+.playlist-item{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(56,189,248,.14);
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:16px;
+    box-shadow:0 18px 40px rgba(0,0,0,.22);
+}
+
+.playlist-buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
+}
+
+.playlist-buttons button{
+    min-width:100px;
+}
 
 .song-card{
 

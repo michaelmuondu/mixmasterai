@@ -44,6 +44,7 @@ form.addEventListener("submit", function (e) {
 
     data.append("title", document.querySelector("[name='title']").value);
     data.append("artist", document.querySelector("[name='artist']").value);
+    data.append("album", document.querySelector("[name='album']").value);
     data.append("genre", document.querySelector("[name='genre']").value);
 
     const xhr = new XMLHttpRequest();
@@ -67,4 +68,57 @@ form.addEventListener("submit", function (e) {
 
     xhr.send(data);
 });
+
+const importBtn = document.getElementById("importSpotifyBtn");
+const spotifyUrlInput = document.getElementById("spotifyUrl");
+const spotifyMessage = document.getElementById("spotifyMessage");
+
+if (importBtn) {
+    importBtn.addEventListener("click", async () => {
+        const url = spotifyUrlInput.value.trim();
+        if (!url) {
+            spotifyMessage.textContent = "Paste a Spotify album or playlist URL first.";
+            spotifyMessage.style.color = "#facc15";
+            return;
+        }
+
+        importBtn.disabled = true;
+        importBtn.textContent = "Importing...";
+        spotifyMessage.textContent = "";
+
+        try {
+            const response = await fetch("../api/importSpotify.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({ spotify_url: url })
+            });
+
+            const text = await response.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (parseErr) {
+                spotifyMessage.textContent = `Unexpected server response: ${text}`;
+                spotifyMessage.style.color = "#f87171";
+                console.error('ImportSpotify decode', parseErr, text);
+                return;
+            }
+
+            spotifyMessage.textContent = data.message || 'Unexpected response from import endpoint.';
+            spotifyMessage.style.color = data.success ? "#4ade80" : "#f87171";
+
+            if (data.success) {
+                spotifyUrlInput.value = "";
+            }
+        } catch (err) {
+            spotifyMessage.textContent = "Unable to import Spotify album. Check your network or API credentials.";
+            spotifyMessage.style.color = "#f87171";
+            console.error(err);
+        } finally {
+            importBtn.disabled = false;
+            importBtn.textContent = "Import from Spotify";
+        }
+    });
 }

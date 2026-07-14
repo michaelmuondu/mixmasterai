@@ -21,17 +21,21 @@ function displaySongs(list) {
 
     list.forEach(song => {
 
+        const audioSrc = song.file_path ? song.file_path : `../uploads/songs/${song.filename}`;
+
         songsContainer.innerHTML += `
             <div class="song-card">
 
                 <h3>${song.title}</h3>
 
-                <p><strong>Artist:</strong> ${song.artist}</p>
+                <p><strong>Artist:</strong> ${song.artist || 'Unknown'}</p>
 
-                <p><strong>Genre:</strong> ${song.genre}</p>
+                <p><strong>Album:</strong> ${song.album || 'N/A'}</p>
+
+                <p><strong>Genre:</strong> ${song.genre || 'N/A'}</p>
 
                 <audio controls>
-                    <source src="../uploads/songs/${song.filename}">
+                    <source src="${audioSrc}">
                     Your browser does not support audio.
                 </audio>
 

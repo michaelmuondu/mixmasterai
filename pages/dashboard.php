@@ -11,7 +11,16 @@ require_once("../includes/navbar.php");
 
     <div class="content">
 
-        <h1>Dashboard</h1>
+        <div class="dashboard-header">
+            <div>
+                <h1>MixMaster AI Dashboard</h1>
+                <p>Manage your tracks, launch the DJ console, and import Spotify albums with immersive DJ-style visuals.</p>
+            </div>
+            <div class="dashboard-actions">
+                <a class="btn" href="player.php">Open DJ Console</a>
+                <a class="btn secondary" href="upload.php">Upload Music</a>
+            </div>
+        </div>
 
         <div class="cards">
 
@@ -29,27 +38,34 @@ require_once("../includes/navbar.php");
                 <h2>🎧 AI Mixes</h2>
                 <p id="mixCount">0</p>
             </div>
+
             <div class="card">
-
-            <h2>💾 Storage</h2>
-
-            <p id="storageCount">0 MB</p>
-
+                <h2>💾 Storage</h2>
+                <p id="storageCount">0 MB</p>
             </div>
-            <div class="card">
+
+            <div class="card highlight-card">
                 <h2>👤 Welcome</h2>
                 <p><?php echo htmlspecialchars($_SESSION['fullname']); ?></p>
             </div>
 
         </div>
 
-        <div class="welcome-box">
+        <div class="dashboard-split">
 
-            <h2>Welcome to MixMaster AI</h2>
+            <div class="welcome-box">
+                <h2>Live DJ Experience</h2>
+                <p>Drag and drop tracks, import Spotify albums, and build an immersive DJ library with instantly available preview streams.</p>
+            </div>
 
-            <p>
-                Upload your music library and let the AI create professional DJ mixes.
-            </p>
+            <div class="insights-card">
+                <h2>Quick Actions</h2>
+                <ul>
+                    <li>Upload local songs and manage your audio library.</li>
+                    <li>Import Spotify albums or playlists with preview support.</li>
+                    <li>Launch the DJ console to mix tracks live.</li>
+                </ul>
+            </div>
 
         </div>
 

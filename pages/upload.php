@@ -15,83 +15,109 @@ require_once("../includes/navbar.php");
             <p>Add MP3 or WAV files to your music library.</p>
         </div>
 
-        <div class="upload-card">
+        <div class="upload-grid">
 
-            <form id="uploadForm" enctype="multipart/form-data">
+            <div class="upload-card">
 
-                <div class="drop-area" id="dropArea">
+                <h2>Upload Local Track</h2>
 
-                    <h2>🎵 Drag & Drop Music Here</h2>
+                <form id="uploadForm" enctype="multipart/form-data">
 
-                    <p>or</p>
+                    <div class="drop-area" id="dropArea">
+
+                        <h3>🎵 Drag & Drop Music Here</h3>
+
+                        <p>or</p>
+
+                        <input
+                            type="file"
+                            id="song"
+                            name="song"
+                            accept=".mp3,.wav"
+                            hidden
+                        >
+
+                        <button
+                            type="button"
+                            id="browseBtn"
+                            class="btn"
+                        >
+                            Browse Files
+                        </button>
+
+                    </div>
 
                     <input
-                        type="file"
-                        id="song"
-                        name="song"
-                        accept=".mp3,.wav"
-                        hidden
+                        type="text"
+                        name="title"
+                        placeholder="Song Title"
+                        required
+                    >
+
+                    <input
+                        type="text"
+                        name="artist"
+                        placeholder="Artist"
+                    >
+
+                    <input
+                        type="text"
+                        name="album"
+                        placeholder="Album"
+                    >
+
+                    <input
+                        type="text"
+                        name="genre"
+                        placeholder="Genre"
                     >
 
                     <button
-                        type="button"
-                        id="browseBtn"
                         class="btn"
+                        type="submit"
                     >
-                        Browse Files
+                        Upload Song
                     </button>
 
+                </form>
+
+                <div id="progressContainer">
+                    <div id="progressBar"></div>
                 </div>
 
-                <br>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Song Title"
-                    required
-                >
-
-                <input
-                    type="text"
-                    name="artist"
-                    placeholder="Artist"
-                >
-
-                <input
-                    type="text"
-                    name="genre"
-                    placeholder="Genre"
-                >
-
-                <br><br>
-
-                <button
-                    class="btn"
-                    type="submit"
-                >
-                    Upload Song
-                </button>
-
-            </form>
-
-            <br>
-
-            <div id="progressContainer">
-
-                <div id="progressBar"></div>
+                <div id="message"></div>
 
             </div>
 
-            <br>
+            <div class="import-card">
 
-            <div id="message"></div>
+                <h2>Import Spotify Album</h2>
+
+                <p>Paste a Spotify album or playlist URL to import available preview tracks directly into your library.</p>
+
+                <input
+                    type="url"
+                    id="spotifyUrl"
+                    placeholder="https://open.spotify.com/album/..."
+                >
+
+                <button
+                    id="importSpotifyBtn"
+                    type="button"
+                    class="btn"
+                >
+                    Import from Spotify
+                </button>
+
+                <div id="spotifyMessage"></div>
+
+            </div>
 
         </div>
 
     </div>
 
-</div">
+</div>
 <script src="../assets/scripts.js"></script>
 
 <?php require_once("../includes/footer.php"); ?>
